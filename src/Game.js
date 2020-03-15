@@ -5,31 +5,63 @@ class Square extends React.Component {
 
     render() {
         return (
-            <button></button>
+            <button className="square"
+                onClick={this.props.onClick}
+                >{this.props.value}</button>
         )
     }
 }
 
 class Board extends React.Component {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isNextX: true,
+            squares: Array(9).fill(null)
+        }
+    }
+    renderSquare(i) {
+        return (
+            <Square 
+                onClick={() => this.handleClick(i)} 
+                value={this.state.squares[i]}
+            />
+        )
+    }
+
+    handleClick(i) {
+        const copy = this.state.squares.slice();
+        if (copy[i]) {
+            return;
+        }
+        copy[i] = this.state.isNextX ? 'X' : 'O';
+    
+
+        this.setState({
+            squares: copy,
+            isNextX: !this.state.isNextX
+        })
+    }
+
     render() {
         return (
             <div id="game-board">
-            <div className="board-row">
-                <button>0</button>
-                <button>1</button>
-                <button>2</button>
+                <div className="board-row">
+                    {this.renderSquare(0)}
+                    {this.renderSquare(1)}
+                    {this.renderSquare(2)}
+                </div>
+                <div className="board-row">
+                    {this.renderSquare(3)}
+                    {this.renderSquare(4)}
+                    {this.renderSquare(5)}
+                </div>
+                <div className="board-row">
+                    {this.renderSquare(6)}
+                    {this.renderSquare(7)}
+                    {this.renderSquare(8)}
+                </div>
             </div>
-            <div className="board-row">
-                <button>3</button>
-                <button>4</button>
-                <button>5</button>
-            </div>
-            <div className="board-row">
-                <button>6</button>
-                <button>7</button>
-                <button>8</button>
-            </div>
-        </div>
         )
     }
 }
@@ -57,3 +89,4 @@ class Game extends React.Component {
 }
 
 export default Game;
+export { Clock };
